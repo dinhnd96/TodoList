@@ -98,13 +98,21 @@ function Todo(props) {
     return tmp;
   };
 
+  const onUpdateStatus = (id) => {
+    const index = findIndex(id);
+    if (index != -1) {
+      tasks[index].status = !tasks[index].status;
+      setTask([...tasks]);
+      localStorage.setItem("task", JSON.stringify(tasks));
+    }
+  };
   const onDelete = (id) => {
     const index = findIndex(id);
     console.log("index", index);
     if (index !== -1) {
       tasks.splice(index, 1);
-      setTask(tasks);
-      localStorage.setItem("task", tasks);
+      setTask([...tasks]);
+      localStorage.setItem("task", JSON.stringify(tasks));
     }
   };
 
@@ -141,7 +149,7 @@ function Todo(props) {
           <Control />
           <TaskList
             tasks={tasks}
-            // onUpdateStatus={handleUpdateStatus}
+            onUpdateStatus={onUpdateStatus}
             onDelete={onDelete}
           />
         </div>

@@ -2,7 +2,9 @@ import React from "react";
 
 function TaskItem(props) {
   const { task, index } = props;
-  const onUpdateStatus = () => {};
+  const onUpdateStatus = () => {
+    props.onUpdateStatus(task.id);
+  };
   const onDelete = () => {
     props.onDelete(task.id);
   };
