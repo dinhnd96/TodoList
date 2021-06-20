@@ -8,6 +8,10 @@ function TaskItem(props) {
   const onDelete = () => {
     props.onDelete(task.id);
   };
+
+  const onUpdateItem = () => {
+    props.onUpdateItem(task.id)
+  }
   return (
     <tr>
       <td>{index + 1}</td>
@@ -15,16 +19,16 @@ function TaskItem(props) {
       <td className="text-center">
         <span
           className={
-            task.status === true ? "label label-danger" : "label label-success"
+            task.status === true ? "label label-danger": "label label-success " 
           }
           onClick={onUpdateStatus}
         >
-          {task.status === true ? "Disable" : " Active"}
+          {task.status === true ? "Disable " : "Active"}
         </span>
       </td>
       <td className="text-center">
-        <button type="button" className="btn btn-warning">
-          <span className="fa fa-pencil mr-5"></span>Sửa
+        <button type="button" className="btn btn-warning" onClick={onUpdateItem}>
+          <span className="fa fa-pencil mr-5" ></span>Sửa
         </button>
         &nbsp;
         <button type="button" className="btn btn-danger" onClick={onDelete}>

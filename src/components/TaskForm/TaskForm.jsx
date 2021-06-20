@@ -1,14 +1,24 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 
 function TaskForm(props) {
-  const { onSubmit } = props;
+  useEffect(() => {
+if(taskEditing) {
+  setName(taskEditing.name)
+  setStatus(taskEditing.status)
+  setId(taskEditing.id)
+}
+  },[])
+  const { onSubmit,taskEditing } = props;
   const [name, setName] = useState("");
   const [status, setStatus] = useState(false);
+  const [id,setId] = useState("")
   const { isDisplayForm, onCloseForm } = props;
   const handleSubmit = (e) => {
+    console.log("id",id);
     e.preventDefault();
     if (onSubmit) {
-      onSubmit(name, status === "1" ? true : false);
+      onSubmit(name, status === "0" ? true : false);
     }
   };
   const onClear = () => {
@@ -20,7 +30,7 @@ function TaskForm(props) {
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title" onClick={onCloseForm}>
-            Thêm Công Việc
+             {id !== '' ? "Sửa Công Việc" : "Thêm Công Việc"}
           </h3>
         </div>
         <div className="panel-body">

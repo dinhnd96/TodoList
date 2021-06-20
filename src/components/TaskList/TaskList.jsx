@@ -2,7 +2,7 @@ import React from "react";
 import TaskItem from "../TaskItem/TaskItem";
 
 function TaskList(props) {
-  const { tasks, onUpdateStatus, onDelete } = props;
+  const { tasks, onUpdateStatus, onDelete ,onUpdateItem} = props;
   const elmTasks = tasks.map((task, index) => {
     return (
       <TaskItem
@@ -11,6 +11,7 @@ function TaskList(props) {
         task={task}
         onUpdateStatus={onUpdateStatus}
         onDelete={onDelete}
+        onUpdateItem={onUpdateItem}
       />
     );
   });

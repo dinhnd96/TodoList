@@ -6,6 +6,7 @@ import TaskList from "../TaskList/TaskList";
 function Todo(props) {
   const [isDisplayForm, setIsDisplayForm] = useState(false);
   const [tasks, setTask] = useState([]);
+  const [taskEditing, setTaskEditing] = useState([])
   useEffect(() => {
     const data = localStorage.getItem("task");
     if (data) {
@@ -35,15 +36,22 @@ function Todo(props) {
   const onCloseForm = () => {
     setIsDisplayForm(false);
   };
+  const onShowForm = () => {
+    setIsDisplayForm(true);
+  };
+  const onSubmit = (name, status, id) => {
+    if (id === undefined) {
+      const itemFromForm = {
+        id: guidGenerator(),
+        name: name,
+        status: status,
+      };
 
-  const onSubmit = (name, status) => {
-    const itemFromForm = {
-      id: guidGenerator(),
-      name: name,
-      status: status,
-    };
-    tasks.push(itemFromForm);
-    setTask(tasks);
+      tasks.push(itemFromForm);
+      setTask(tasks);
+    } else {
+      console.log(1);
+    }
     setIsDisplayForm(false);
     localStorage.setItem("task", JSON.stringify(tasks));
     console.log(tasks);
@@ -53,6 +61,7 @@ function Todo(props) {
       isDisplayForm={isDisplayForm}
       onCloseForm={onCloseForm}
       onSubmit={onSubmit}
+      taskEditing={taskEditing}
     />
   ) : (
     ""
@@ -84,17 +93,17 @@ function Todo(props) {
   };
 
   const findIndex = (id) => {
-    console.log("id", id);
+    // console.log("id", id);
 
     let tmp = -1;
     tasks.forEach((task, index) => {
-      console.log("task.id", task.id);
+      // console.log("task.id", task.id);
 
       if (task.id === id) {
         tmp = index;
       }
     });
-    console.log("tmp", tmp);
+    // console.log("tmp", tmp);
     return tmp;
   };
 
@@ -108,14 +117,21 @@ function Todo(props) {
   };
   const onDelete = (id) => {
     const index = findIndex(id);
-    console.log("index", index);
+    // console.log("index", index);
     if (index !== -1) {
       tasks.splice(index, 1);
       setTask([...tasks]);
       localStorage.setItem("task", JSON.stringify(tasks));
     }
   };
-
+  const onUpdateItem = (id) => {
+    const index = findIndex(id);
+    console.log("index", index);
+    const taskEditing = tasks[index]
+    console.log(taskEditing);
+    setTaskEditing(taskEditing)
+    onShowForm(true)
+  }
   return (
     <div className="container">
       <div className="text-center">
@@ -151,6 +167,7 @@ function Todo(props) {
             tasks={tasks}
             onUpdateStatus={onUpdateStatus}
             onDelete={onDelete}
+            onUpdateItem={onUpdateItem}
           />
         </div>
       </div>
